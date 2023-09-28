@@ -1,3 +1,3 @@
 # Filmu un serialu skatisanas sistema
-strada caur xampp un phpmyadmin
-ir pielikts video, kur paradits funkcionals
+Strada caur xampp un phpmyadmin.
+Ir pielikts video, kur paradits funkcionals
