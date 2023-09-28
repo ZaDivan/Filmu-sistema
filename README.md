@@ -1,1 +1,1 @@
-# Filnu un serialu skatisanas sistema
+# Filmu un serialu skatisanas sistema
