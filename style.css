@@ -1,0 +1,210 @@
+*{
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+a{
+    display: block;
+
+    padding: 10px 20px;
+    border-radius: 50px;
+    background-color: #ffffff;
+    box-shadow: 0px 4px 10px rgba(0,0,0,0.25);
+    color: black;
+    text-decoration: none;
+}
+
+a.button, a:hover, a.selected {
+    background-color: darkblue;
+    color: #ffffff;
+}
+
+.filters{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.container{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-auto-rows: auto;
+    box-shadow: 0px 4px 10px rgba(0,0,0,0.25);
+    border-radius: 10px;
+    gap:20px;
+}
+
+.container h2{
+    grid-column-end:span 2;
+}
+
+.item {
+    padding: 10px;
+    text-align: center;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+}
+
+.single{
+    padding: 20px;
+}
+
+.amount{
+    display:flex;
+    align-items: center;
+    gap:20px;
+    padding: 10px;
+    background-color: #F2F2F2;
+    border-radius: 50px;
+
+}
+
+.amount button{
+    background-color: transparent;
+    border: none;
+}
+
+.buy{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+
+}
+
+.single header{
+    display:flex;
+    margin-bottom: 50px;
+}
+
+form{
+    display: grid;
+    gap:10px
+}
+label{
+    text-align: left;
+}
+
+label input, label textarea, label select{
+    width: 100%;
+}
+
+.navbar ul{
+
+    list-style: none;
+    text-align:right;
+}
+.navbar li{
+
+    display: inline-block;
+}
+.navbar a{
+    width:90px;
+
+}
+h1 {
+    color:white;
+    float: left;
+    height: 110px;
+    width: 0px;
+
+}
+#admin_bar{
+    width: 130px;
+}
+header {
+    background-color: darkblue;
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: baseline;
+    border-radius: 5px;
+}
+
+
+
+
+.container .content p{
+    font-size: 25px;
+    margin-bottom: 20px;
+}
+
+.container .content .btn{
+    display: inline-block;
+    padding:10px 30px;
+    font-size: 20px;
+    background: #333;
+    color:#fff;
+    margin:0 5px;
+    text-transform: capitalize;
+}
+
+
+.form-container{
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #eee;
+}
+
+.form-container form{
+    padding:20px;
+    border-radius: 10px;
+    box-shadow: 0 5px 10px rgba(0,0,0,.1);
+    background: #fcfcfc;
+    border-style: solid;
+    border-color: darkblue;
+    text-align: center;
+    width: 500px;
+}
+
+
+
+.form-container form input,
+.form-container form select{
+    width: 100%;
+    padding:10px 15px;
+    font-size: 17px;
+    margin:8px 0;
+    background: #ffffff;
+    border-radius: 5px;
+}
+
+.form-container form select option{
+    background: #fff;
+}
+
+.form-container form .form-btn{
+    background: darkblue;
+    color: #fffdfd;
+    text-transform: capitalize;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.form-container form .form-btn:hover{
+    background: darkblue;
+    color:#fff;
+}
+
+.form-container form p{
+    margin-top: 10px;
+    font-size: 20px;
+    color:#333;
+}
+
+
+
+.form-container form .error-msg{
+    margin:10px 0;
+    display: block;
+
+    color: #ff0000;
+    border-radius: 5px;
+    font-size: 20px;
+    padding:10px;
+}
+#login{
+    font-size: 30px;
+}
