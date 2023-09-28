@@ -29,6 +29,7 @@ if(isset($_GET['year'])) {
 <div class = "navbar">
     <ul>
         <li> <a href = "user_page.php">Home</a></li>
+        <li> <a id="admin_bar" href="admin.php">Admin panel</a></li>
     </ul>
 </div>
 </header>
