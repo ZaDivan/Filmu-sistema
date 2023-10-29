@@ -3,7 +3,7 @@
     if(!isset($_GET["id"])) {
         echo "<script>
             alert('not chosen item');
-            location.href = 'user_page.php';
+            location.href = 'admin_page.php';
         </script>";
         exit();
     }
@@ -34,6 +34,12 @@
             <p><?php echo $item['description']?></p>
         </section>
 
+        <section class = "buy">
+            <h2>$<?php echo $item['price']?></h2>
+            <div class = "amount">
+                <a href = "reservation.php">Reserv</a>
+            </div>
+        </section>
     </main>
 </body>
 </html>

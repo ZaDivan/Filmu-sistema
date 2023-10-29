@@ -15,12 +15,13 @@ if(isset($_GET["Delete"])){
 
 if(isset($_GET["Add"])){
     $name = $_GET["new_item_name"];
-    $genre_id = $_GET['genre_id'];
     $photo = $_GET['photo'];
     $description = $_GET['description'];
-    $year_id = $_GET['year_id'];
-    if($db->query("INSERT INTO items (name, genre_id, year_id, description, photo) 
-VALUES ('$name','$genre_id','$year_id','$description','$photo' ) ")){
+    $price = $_GET['price'];
+    $category = $_GET['category'];
+    $city = $_GET['city'];
+    if($db->query("INSERT INTO items (name, photo, description, price, category, city) 
+VALUES ('$name', '$photo', '$description', $price, '$category', '$city') ")){
         echo "<script>
                 alert('Veiksmigi pievienots')
                 location.href = 'admin.php';
@@ -30,14 +31,15 @@ VALUES ('$name','$genre_id','$year_id','$description','$photo' ) ")){
 
 
 if(isset($_GET["Update"])){
-    $name = $_GET["new_item_name"];
+    $name = $_GET["item_name"];
     $photo = $_GET['photo'];
     $description = $_GET['description'];
-    $year_id = $_GET['year_id'];
-    $genre_id = $_GET['genre_id'];
+    $price = $_GET['price'];
+    $category = $_GET['category'];
+    $city = $_GET['city'];
     $id = $_GET['id'];
-    if($db->query("UPDATE items SET name='$name',genre_id='$genre_id',year_id='$year_id',description='$description', photo='$photo'
-       WHERE id=$id")){
+    if($db->query("UPDATE items SET name='$name', photo='$photo',
+        description='$description', price='$price', category='$category', city='$city' WHERE id=$id")){
         echo "<script>
                 alert('Veiksmigi izmainits')
                 location.href = 'admin.php';
@@ -45,9 +47,9 @@ if(isset($_GET["Update"])){
     }
 }
 
-$genres = $db->query("SELECT * FROM genres")->fetchAll(2);
+$categories = $db->query("SELECT * FROM categories")->fetchAll(2);
 $items = $db->query("SELECT * FROM items")->fetchAll(2);
-$years = $db->query("SELECT * FROM years")->fetchAll(2);
+$cities = $db->query("SELECT * FROM cities")->fetchAll(2);
 ?>
 
 <!DOCTYPE html>
@@ -62,41 +64,43 @@ $years = $db->query("SELECT * FROM years")->fetchAll(2);
 <body>
 <h1>Admin panel</h1>
 <header>
-    <a href = "user_page.php">Back</a>
+    <a href = "admin_page.php">Back</a>
 </header>
 
 <main>
-
+    <h2>Products</h2>
     <div class = "container">
         <form action="#" class="item">
                 <label>
-                    Name
+                    Nosaukums
                     <input type="text" required name="new_item_name"></label>
                 <label>
-                    Photo
+                    Foto
                     <input type="text" required name="photo" ></label>
                 <label>
-                    Description
+                    Apraksts
                     <textarea required name="description"></textarea></label>
                 <label>
+                    Cena
+                    <input type="number" required min="0" name="price" ></label>
 
                 <label>
-                    Genre
-                    <select name="genre_id" id="">
-                        <?php foreach($genres as $gen): ?>
-                            <option value="<?php echo $gen['id'];?>">
-                                <?php echo $gen['name'] ?>
+                    Kategorija
+                    <select name="category" id="">
+                        <?php foreach($categories as $cat): ?>
+                            <option value="<?php echo $cat['id'];?>">
+                                <?php echo $cat['name'] ?>
                             </option>
                         <?php endforeach;?>
                     </select>
                 </label>
 
                 <label>
-                    Year
-                    <select name="year_id" id="">
-                        <?php foreach($years as $year): ?>
-                            <option value="<?php echo $year['id'];?>">
-                                <?php echo $year['name'] ?>
+                    City
+                    <select name="city" id="">
+                        <?php foreach($cities as $pilseta): ?>
+                            <option value="<?php echo $pilseta['id'];?>">
+                                <?php echo $pilseta['name'] ?>
                             </option>
                         <?php endforeach;?>
                     </select>
@@ -119,24 +123,26 @@ $years = $db->query("SELECT * FROM years")->fetchAll(2);
                         Apraksts
                         <textarea name="description"><?php echo $item['description']?></textarea></label>
                     <label>
+                        Cena
+                        <input type="number" min="0" name="price" value="<?php echo $item['price']?>"></label>
 
                     <label>
-                        Genre
-                        <select name="genre_id" id="">
-                            <?php foreach($genres as $gen): ?>
-                                <option <?php if($item['genre_id'] == $gen['id']) echo 'selected';  ?> value="<?php echo $gen['id'];?>">
-                                    <?php echo $gen['name'] ?>
+                        Kategorija
+                        <select name="category" id="">
+                            <?php foreach($categories as $cat): ?>
+                                <option <?php if($item['category'] == $cat['id']) echo 'selected';  ?> value="<?php echo $cat['id'];?>">
+                                    <?php echo $cat['name'] ?>
                                 </option>
                             <?php endforeach;?>
                         </select>
                     </label>
 
                     <label>
-                        Year
-                        <select name="year_id" id="">
-                            <?php foreach($years as $year): ?>
-                                <option <?php if($item['year_id'] == $year['id']) echo 'selected';  ?> value="<?php echo $year['id'];?>">
-                                    <?php echo $year['name'] ?>
+                        City
+                        <select name="city" id="">
+                            <?php foreach($cities as $pilseta): ?>
+                                <option <?php if($item['city'] == $pilseta['id']) echo 'selected';  ?> value="<?php echo $pilseta['id'];?>">
+                                    <?php echo $pilseta['name'] ?>
                                 </option>
                             <?php endforeach;?>
                         </select>

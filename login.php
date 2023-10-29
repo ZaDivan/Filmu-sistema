@@ -13,8 +13,18 @@ if(isset($_POST['submit'])){
     if($result->rowCount() > 0){
 
         $row = $result->fetch();
-        $_SESSION['admin_name'] = $row['name'];
-        header('location:user_page.php');
+
+        if($row['role'] == '2'){
+
+            $_SESSION['admin_name'] = $row['name'];
+            header('location:admin_page.php');
+
+        }elseif($row['role'] == '1'){
+
+            $_SESSION['user_name'] = $row['name'];
+            header('location:user_page.php');
+
+        }
 
     }else{
         $error[] = 'incorrect email or password!';
@@ -31,6 +41,7 @@ if(isset($_POST['submit'])){
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>login form</title>
 
+    <!-- custom css file link  -->
     <link rel="stylesheet" href="style.css">
 
 </head>

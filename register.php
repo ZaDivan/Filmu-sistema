@@ -19,7 +19,7 @@ if(isset($_POST['submit'])){
         if($pass != $cpass){
             $error[] = 'password not matched!';
         }else{
-            $insert = "INSERT INTO users(name, email, password, role) VALUES('$name','$email','$pass')";
+            $insert = "INSERT INTO users(name, email, password, role) VALUES('$name','$email','$pass','$role')";
             $db->query($insert);
             header('location:login.php');
         }
@@ -58,6 +58,13 @@ $roles = $db->query("SELECT * FROM roles")->fetchAll(2);
         <input type="email" name="email" required placeholder="enter your email">
         <input type="password" name="password" required placeholder="enter your password">
         <input type="password" name="cpassword" required placeholder="confirm your password">
+        <select name="role" id="">
+            <?php foreach($roles as $role): ?>
+                <option value="<?php echo $role['id'];?>">
+                    <?php echo $role['name'] ?>
+                </option>
+            <?php endforeach;?>
+        </select>
         <input type="submit" name="submit" value="register now" class="form-btn">
         <p>already have an account? <a href="login.php">login now</a></p>
     </form>
