@@ -1,8 +1,9 @@
 <?php
 
 require("db.php");
+$roles = $db->query("SELECT * FROM roles")->fetchAll(2);
 
-if(isset($_POST['submit'])){
+if(isset($_POST['submit'])) {
     $name = $_POST["name"];
     $email = $_POST['email'];
     $pass = $_POST['password'];
@@ -10,23 +11,21 @@ if(isset($_POST['submit'])){
 
     $result = $db->query("SELECT * FROM users WHERE email = '$email' && password = '$pass' ");
 
-    if($result->fetchColumn() > 0){
+    if ($result->fetchColumn() > 0) {
 
         $error[] = 'user already exist!';
 
-    }else{
+    } else {
 
-        if($pass != $cpass){
+        if ($pass != $cpass) {
             $error[] = 'password not matched!';
-        }else{
+        } else {
             $insert = "INSERT INTO users(name, email, password, role) VALUES('$name','$email','$pass','$role')";
             $db->query($insert);
             header('location:login.php');
         }
     }
-
-};
-$roles = $db->query("SELECT * FROM roles")->fetchAll(2);
+}
 
 ?>
 

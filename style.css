@@ -35,7 +35,7 @@ a.button, a:hover, a.selected {
 }
 
 .container h2{
-    grid-column-end:span 2;
+    grid-column-end:span 4;
 }
 
 .item {
@@ -207,4 +207,10 @@ header {
 }
 #login{
     font-size: 30px;
+}
+input[name=search] {
+    font-size: 20px;
+    padding: 5px;
+    width: 1200px;
+    border-radius: 20px;
 }

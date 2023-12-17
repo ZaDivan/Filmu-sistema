@@ -14,7 +14,7 @@ if(isset($_POST['submit'])){
 
         $row = $result->fetch();
 
-        if($row['role'] == '2'){
+        if($row['role'] == '0'){
 
             $_SESSION['admin_name'] = $row['name'];
             header('location:admin_page.php');
@@ -41,7 +41,6 @@ if(isset($_POST['submit'])){
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>login form</title>
 
-    <!-- custom css file link  -->
     <link rel="stylesheet" href="style.css">
 
 </head>
