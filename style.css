@@ -35,7 +35,7 @@ a.button, a:hover, a.selected {
 }
 
 .container h2{
-    grid-column-end:span 2;
+    grid-column-end:span 4;
 }
 
 .item {
@@ -59,18 +59,6 @@ a.button, a:hover, a.selected {
 
 }
 
-.amount button{
-    background-color: transparent;
-    border: none;
-}
-
-.buy{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 20px;
-
-}
 
 .single header{
     display:flex;
@@ -207,4 +195,10 @@ header {
 }
 #login{
     font-size: 30px;
+}
+input[name=search] {
+    font-size: 20px;
+    padding: 5px;
+    width: 1200px;
+    border-radius: 20px;
 }
