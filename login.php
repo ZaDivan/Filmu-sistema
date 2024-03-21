@@ -5,7 +5,6 @@ require("db.php");
 session_start();
 
 if(isset($_POST['submit'])){
-
     $email = $_POST['email'];
     $pass = $_POST['password'];
 
@@ -29,41 +28,86 @@ if(isset($_POST['submit'])){
     }else{
         $error[] = 'incorrect email or password!';
     }
-
+		
 };
 ?>
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>login form</title>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="login">
+    <title>login</title>
 
-    <link rel="stylesheet" href="style.css">
+  
+    
 
-</head>
-<body>
+    <!-- Bootstrap core CSS -->
+<link href="css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 
-<div class="form-container">
 
-    <form action="" method="post">
-        <h3 id="login">Login now</h3>
-        <?php
-        if(isset($error)){
-            foreach($error as $error){
-                echo '<span class="error-msg">'.$error.'</span>';
-            };
-        };
-        ?>
-        <input type="email" name="email" required placeholder="enter your email">
-        <input type="password" name="password" required placeholder="enter your password">
-        <input type="submit" name="submit" value="login now" class="form-btn">
-        <p>don't have an account? <a href="register.php">register now</a></p>
-    </form>
+<meta name="theme-color" content="#7952b3">
 
+
+    <style>
+			html,
+body {
+  height: 100%;
+}
+
+body {
+  display: flex;
+  align-items: center;
+
+  background-color: #f5f5f5;
+}
+
+
+</style>
+
+    
+    <!-- Custom styles for this template -->
+
+  </head>
+  <body class="text-center">
+    
+		
+<div class="modal modal-sheet position-static d-block bg-body-secondary p-4 py-md-5" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content rounded-4 shadow">
+      <div class="modal-header p-5 pb-4 border-bottom-0">
+        <h1 class="fw-bold mb-0 fs-2">Login now</h1>
+      </div>
+
+      <div class="modal-body p-5 pt-0">
+        <form  action="" method="post">
+          <div class="form-floating mb-3">
+            <input type="email" name="email" class="form-control rounded-3" id="floatingInput" placeholder="Enter your email">
+            <label for="floatingInput">Enter your email</label>
+          </div>
+          <div class="form-floating mb-3">
+            <input type="password" name="password" class="form-control rounded-3" id="floatingPassword" placeholder="Enter your password">
+            <label for="floatingPassword">Enter your password</label>
+          </div>
+					
+          <button class="w-100 mb-2 btn btn-lg rounded-3 btn-primary" name="submit" type="submit">Login now</button>
+					<hr class="my-4">
+        </form>
+							<?php
+				if(isset($error)){
+						foreach($error as $error){
+								echo '<div class="alert alert-danger" role="alert">'.$error.'</div>';
+						};
+				};
+		?>
+		don't have an account? 
+		<p>don't have an account? <a href="register.php">register now</a></p>
+      </div>
+    </div>
+  </div>
 </div>
 
-</body>
+
+  </body>
 </html>
