@@ -28,7 +28,7 @@
      
 
     <!-- Bootstrap core CSS -->
-<link href="css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+<link href="css/bootstrap.css" rel="stylesheet" crossorigin="anonymous">
 
     <!-- Favicons -->
 
