@@ -1,20 +1,30 @@
 <?php
+session_start();
     require("db.php");
-    if(!isset($_GET["id"])) {
-        echo "<script>
-            alert('not chosen item');
-            location.href = 'user_page.php';
-        </script>";
-        exit();
-    }
+    date_default_timezone_set('Europe/Riga');
     $id = $_GET["id"];
-
+    $comments = $db->query("SELECT * FROM comments WHERE film_id=$id")->fetchAll(2);
     $item = $db->query("SELECT * FROM items WHERE id=$id")->fetchAll(2);
     $items = $db->query("SELECT * FROM items")->fetchAll(2);
-
     if(count($item)>0){
         $item = $item[0];
     }
+
+                        if(isset($_POST['commentSubmit'])) {
+                            $film_id = $_POST['film_id'];
+                            $user_id = $_POST['user_id'];
+                            $date = $_POST['date'];
+                            $message = $_POST['message'];
+
+                           if($db->query("INSERT INTO comments (film_id, user_id, date, message) VALUES ('$film_id','$user_id','$date','$message') ")){
+                                echo "<script>
+                                    alert('Veiksmigi pievienots')
+                                    location.href = 'user_page.php';
+                                </script>";
+                                }
+                        }
+
+
 ?>
 <!doctype html>
 <html lang="en">
@@ -100,7 +110,21 @@
 						</div>
 					</div>
 				</div>
+            <?php
+            echo "<form method = 'POST'>
+                            <input type='hidden' name='film_id' value='".$id."'>
+                            <input type='hidden' name='user_id' value='".$_SESSION['id']."'>
+                            <input type='hidden' name='date' value='".date('Y-m-d H:i:s')."'>
+                            <textarea class='form-control' name='message' placeholder='Ievadiet komentaru'></textarea><br>
+                            <button type='submit' class='btn btn-outline-primary me-2' name = 'commentSubmit' >Komentet</button>
+                        </form>";?>
+             <div class="row row-cols-1  ">
+				<?php foreach($comments as $com):?>
+            <div class="col">
+                <div class="card shadow-sm align-items-center">
+                    <div class="card-title "><?php echo $com['message']; ?></div>
 			</div>
 		</div>
+                <?php endforeach;?>
 	</body>
 </html>

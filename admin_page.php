@@ -1,5 +1,11 @@
 <?php
+session_start();
+if(empty($_SESSION['role'])){
+    header('location:index.php');
+}elseif($_SESSION['role'] == 1) {
+    header('location:admin_page.php');}
 require("db.php");
+
 $genres = $db->query("SELECT * FROM genres")->fetchAll(2);
 $years = $db->query("SELECT * FROM years")->fetchAll(2);
 $items = $db->query("SELECT * FROM items")->fetchAll(2);
@@ -17,6 +23,7 @@ if (isset($_POST["search"])){
     $str = $_POST["search"];
     $items = $db->query("SELECT * FROM items WHERE name LIKE '%$str%'")->fetchAll(2);
 }
+
 ?>
 
 <!doctype html>
@@ -114,9 +121,9 @@ if (isset($_POST["search"])){
 	</div>
 </main>
 
-
 		<div class="container d-grid pt-3 pb-5">
-			<p class="h4">Popularas filmas and seriāli</p>
+			<p class="h4">Labdien <?php echo $_SESSION['user_name'] ?></p>
+            <p class="h4">Jūsu rekomendācijas</p>
 			<div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-4 ">
 				<?php foreach($items as $item):?>
 					<div class="col">
@@ -133,6 +140,5 @@ if (isset($_POST["search"])){
         <?php endforeach;?>
 			</div>
 		</div>
-		
   </body>
 </html>

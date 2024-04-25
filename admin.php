@@ -1,5 +1,9 @@
 <?php
-
+session_start();
+if(empty($_SESSION['role'])){
+    header('location:index.php');
+}elseif($_SESSION['role'] == 1) {
+    header('location:admin_page.php');}
 require("db.php");
 
 

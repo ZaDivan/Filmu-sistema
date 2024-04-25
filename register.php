@@ -38,7 +38,7 @@ if(isset($_POST['submit'])) {
     <title>Register</title>
 
     <!-- Bootstrap core CSS -->
-<link href="css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+<link href="css/bootstrap.css" rel="stylesheet" crossorigin="anonymous">
 
 
 <meta name="theme-color" content="#7952b3">    

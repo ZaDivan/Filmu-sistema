@@ -1,25 +1,30 @@
 <?php
-
-require("db.php");
-
 session_start();
-
+require("db.php");
 if(isset($_POST['submit'])){
     $email = $_POST['email'];
     $pass = $_POST['password'];
 
     $result = $db->query(" SELECT * FROM users WHERE email = '$email' && password = '$pass' ");
+    setcookie("email",$email, time() + 60*60*24*30);
+    setcookie("pass",$pass, time() + 60*60*24*30);
     if($result->rowCount() > 0){
-
         $row = $result->fetch();
 
-        if($row['role'] == '0'){
 
-            $_SESSION['admin_name'] = $row['name'];
+
+
+        if($row['role'] == '2'){
+
+            $_SESSION['id'] = $row['id'];
+            $_SESSION['role'] = $row['role'];
+            $_SESSION['user_name'] = $row['name'];
             header('location:admin_page.php');
 
         }elseif($row['role'] == '1'){
 
+            $_SESSION['id'] = $row['id'];
+            $_SESSION['role'] = $row['role'];
             $_SESSION['user_name'] = $row['name'];
             header('location:user_page.php');
 
@@ -40,11 +45,9 @@ if(isset($_POST['submit'])){
     <meta name="author" content="login">
     <title>login</title>
 
-  
-    
 
     <!-- Bootstrap core CSS -->
-<link href="css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+<link href="css/bootstrap.css" rel="stylesheet" crossorigin="anonymous">
 
 
 <meta name="theme-color" content="#7952b3">

@@ -1,10 +1,13 @@
 <?php
 session_start();
-if(empty($_SESSION['role'])){
-    header('location:index.php');
-}elseif($_SESSION['role'] == 2) {
-    header('location:admin_page.php');}
+error_reporting(E_ERROR | E_PARSE);
+if($_SESSION['role']==1){
+    header('location:user_page.php');
+}elseif($_SESSION['role']==2){
+    header('location:admin_page.php');
+}
 require("db.php");
+
 $genres = $db->query("SELECT * FROM genres")->fetchAll(2);
 $years = $db->query("SELECT * FROM years")->fetchAll(2);
 $items = $db->query("SELECT * FROM items")->fetchAll(2);
@@ -31,7 +34,7 @@ if (isset($_POST["search"])){
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
 
-    <title>Video</title>
+    <title>Viesis</title>
 
      
 
@@ -44,7 +47,8 @@ if (isset($_POST["search"])){
 
   </head>
   <body>
-    
+
+<main>
 <div style="display: none;">
 <svg id="Info_system" height="40" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
 	 viewBox="0 0 512 512" xml:space="preserve" 
@@ -66,15 +70,12 @@ if (isset($_POST["search"])){
 </g>
 </svg>
 </div>
-
-<main>
-
   <header class="p-3 mb-3 border-bottom">
     <div class="container">
 			<div class="container-fluid d-grid gap-3 align-items-center" style="grid-template-columns: 1fr 2fr;">
 				<a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
 					<svg class="bi me-2" width="40" height="32"><use xlink:href="#Info_system"></use></svg>
-					<span class="fs-4">Info sistēma</span>
+					<span class="fs-4">Info system</span>
 				</a>
 
 				<div class="d-flex align-items-center">
@@ -83,8 +84,8 @@ if (isset($_POST["search"])){
 					</form>
 					
 					<div class="col-md-4 text-end">
-						<a href = "user_page.php"><button type="button" class="btn btn-outline-primary me-2">Māja</button></a>
-						<a href = "logout.php"><button type="button" class="btn btn-primary">Iziet</button></a>
+						<a href = "login.php"><button type="button" class="btn btn-outline-primary me-2">Login</button></a>
+						<a href = "index.php"><button type="button" class="btn btn-primary">Home</button></a>
 				</div>
 					
 				</div>
@@ -119,8 +120,7 @@ if (isset($_POST["search"])){
 
 
 		<div class="container d-grid pt-3 pb-5">
-            <p class="h4">Labdien <?php echo $_SESSION['user_name'] ?></p>
-            <p class="h4">Jūsu rekomendācijas</p>
+			<p class="h4">Popularas filmas and seriāli</p>
 			<div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-4 ">
 				<?php foreach($items as $item):?>
 					<div class="col">
