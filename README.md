@@ -1,5 +1,7 @@
-# Filmu un serialu informacijas skatisanas sistema. Pagaidam ir tikai majaslappa, filtrs.
-+Login/Register +Admin_page, kur ir admin panel +datubazes sql file
-+Meklēšana un filmu lappas
-Strada caur xampp un phpmyadmin.
-Ir pielikts video, kur paradits funkcionals
+# Filmu un serialu informacijas un paarvaldibas sistema. 
+#to-do. 
+1.Рейтинговая система у фильмов
+2.Рекомандации, зависящие от рейтинга
+3.Вкладка профиля пользователя с возможностью поменять пароль
+4.Возможность очистить каждый фильтр по отдельности
+5.Визуал(коментарии,фильтр(при нажатии чтоб кнопка оставалась такой, как при наведении) и масштабирование(чтоб при + или - размера страницы масштабы сохранялись))
