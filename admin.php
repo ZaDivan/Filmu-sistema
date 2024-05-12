@@ -7,9 +7,11 @@ if(empty($_SESSION['role'])){
 require("db.php");
 
 
+
+
 if(isset($_GET["Delete"])){
     $id = $_GET['id'];
-    if($db->query("DELETE FROM items WHERE id=$id")) {
+		if($db->query("DELETE FROM items WHERE id=".$id)) {
         echo "<script>
                 alert('Veiksmigi izrakstits')
                 location.href = 'admin.php';

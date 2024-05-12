@@ -1,30 +1,70 @@
 <?php
 session_start();
+error_reporting(0);
     require("db.php");
     date_default_timezone_set('Europe/Riga');
     $id = $_GET["id"];
-    $comments = $db->query("SELECT * FROM comments WHERE film_id=$id")->fetchAll(2);
+	$ses_id = (!isset($_SESSION['id']) ? '0' : $_SESSION['id']);
+    $comments = $db->query("SELECT * FROM comments WHERE film_id=$id ORDER BY `id` DESC")->fetchAll(2);
+    $rating_num = $db->query("SELECT * FROM items_rating WHERE items_id=$id")->rowCount();
     $item = $db->query("SELECT * FROM items WHERE id=$id")->fetchAll(2);
     $items = $db->query("SELECT * FROM items")->fetchAll(2);
     if(count($item)>0){
         $item = $item[0];
     }
 
-                        if(isset($_POST['commentSubmit'])) {
-                            $film_id = $_POST['film_id'];
-                            $user_id = $_POST['user_id'];
-                            $date = $_POST['date'];
-                            $message = $_POST['message'];
 
-                           if($db->query("INSERT INTO comments (film_id, user_id, date, message) VALUES ('$film_id','$user_id','$date','$message') ")){
-                                echo "<script>
-                                    alert('Veiksmigi pievienots')
-                                    location.href = 'user_page.php';
-                                </script>";
-                                }
-                        }
-
-
+	if ($item['rating'] == 0) {
+			$star1 = '';
+			$star2 = '';
+			$star3 = '';
+			$star4 = '';
+			$star5 = '';
+	} else if ($item['rating'] > 0 && $item['rating'] <= 1 ) {
+			$star1 = '-fill';
+			$star2 = '';
+			$star3 = '';
+			$star4 = '';
+			$star5 = '';
+	} else if ($item['rating'] > 1 && $item['rating'] <= 2 ) {
+			$star1 = '-fill';
+			$star2 = '-fill';
+			$star3 = '';
+			$star4 = '';
+			$star5 = '';		
+	} else if ($item['rating'] > 2 && $item['rating'] <= 3 ) {
+			$star1 = '-fill';
+			$star2 = '-fill';
+			$star3 = '-fill';
+			$star4 = '';
+			$star5 = '';
+	} else if ($item['rating'] > 3 && $item['rating'] <= 4 ) {
+			$star1 = '-fill';
+			$star2 = '-fill';
+			$star3 = '-fill';
+			$star4 = '-fill';
+			$star5 = '';		
+	} else if ($item['rating'] > 4 && $item['rating'] <= 5 ) {
+			$star1 = '-fill';
+			$star2 = '-fill';
+			$star3 = '-fill';
+			$star4 = '-fill';
+			$star5 = '-fill';		
+	}
+		 $results = $db->query(" SELECT * FROM items_rating WHERE items_id = '".$id."' AND user_id = ".$ses_id);
+		if ($results->rowCount() > 0){
+				$rating = '<div class="col"><a onclick="javascript:delrating(\''.$id.'\',\''.$ses_id.'\');" class="link-dark" href="javascript:"><i class="bi bi-star'.$star1.'"></i></a></div>';
+				$rating .= '<div class="col"><a onclick="javascript:delrating(\''.$id.'\',\''.$ses_id.'\');" class="link-dark" href="javascript:"><i class="bi bi-star'.$star2.'"></i></a></div>';
+				$rating .= '<div class="col"><a onclick="javascript:delrating(\''.$id.'\',\''.$ses_id.'\');" class="link-dark" href="javascript:"><i class="bi bi-star'.$star3.'"></i></a></div>';
+				$rating .= '<div class="col"><a onclick="javascript:delrating(\''.$id.'\',\''.$ses_id.'\');" class="link-dark" href="javascript:"><i class="bi bi-star'.$star4.'"></i></a></div>';
+				$rating .= '<div class="col"><a onclick="javascript:delrating(\''.$id.'\',\''.$ses_id.'\');" class="link-dark" href="javascript:"><i class="bi bi-star'.$star5.'"></i></a></div>';
+		} else {
+				$rating  = '<div class="col"><a onclick="javascript:rating(1,\''.$id.'\',\''.$ses_id.'\');" class="link-dark" href="javascript:"><i class="bi bi-star'.$star1.'"></i></a></div>';
+				$rating .= '<div class="col"><a onclick="javascript:rating(2,\''.$id.'\',\''.$ses_id.'\');" class="link-dark" href="javascript:"><i class="bi bi-star'.$star2.'"></i></a></div>';
+				$rating .= '<div class="col"><a onclick="javascript:rating(3,\''.$id.'\',\''.$ses_id.'\');" class="link-dark" href="javascript:"><i class="bi bi-star'.$star3.'"></i></a></div>';
+				$rating .= '<div class="col"><a onclick="javascript:rating(4,\''.$id.'\',\''.$ses_id.'\');" class="link-dark" href="javascript:"><i class="bi bi-star'.$star4.'"></i></a></div>';
+				$rating .= '<div class="col"><a onclick="javascript:rating(5,\''.$id.'\',\''.$ses_id.'\');" class="link-dark" href="javascript:"><i class="bi bi-star'.$star5.'"></i></a></div>';
+		}
 ?>
 <!doctype html>
 <html lang="en">
@@ -36,13 +76,18 @@ session_start();
     <title>Filmu sistēma</title>
 
      
+<script src="js/bootstrap.js"></script>
+<script src="js/jquery-3.7.1.js" ></script>
 
-    <!-- Bootstrap core CSS -->
+
+
+		
 <link href="css/bootstrap.css" rel="stylesheet" crossorigin="anonymous">
+<link href="css/bootstrap-icons.min.css" rel="stylesheet" >
+
+
 
     <!-- Favicons -->
-
-<meta name="theme-color" content="#7952b3">
 
 
   </head>
@@ -86,7 +131,10 @@ session_start();
 					
 					<div class="col-md-4 text-end">
 						<a href = "user_page.php"><button type="button" class="btn btn-outline-primary me-2">Māja</button></a>
-						<a href = "logout.php"><button type="button" class="btn btn-primary">Iziet</button></a>
+						<?php if ( $ses_id !=0) { ?>
+							<a href = "user_settings.php"><button type="button" class="btn btn-outline-primary me-2">Iestatījumi</button></a>
+							<a href = "logout.php"><button type="button" class="btn btn-primary">Iziet</button></a>
+						<?php } ?>
 				</div>
 					
 				</div>
@@ -94,11 +142,28 @@ session_start();
     </div>
   </header>
 	
+	
+
 	<div class="container d-grid pt-3">
 		<div class="col-md-12">
 				<div class="row g-0 border rounded flex-md-row mb-4 shadow-sm position-relative">
 					<div class="col-auto d-none d-lg-block">
 						<img src="<?php echo $item['photo']?>" alt = "item" width = "400">
+						
+						<div class="container">
+							<div class="row text-center">
+								<div class="col p-3">
+								 <div class="row col">
+									<?php echo $rating; ?>
+									</div>
+								</div>
+							</div>
+							<div class="row text-center " style="font-size: 13px; margin-top: -15px;">
+								<em>Rating: <?php echo $item['rating'];?></em>
+							</div>
+						</div>
+						
+						
 					</div>
 					<div class="col p-4 d-flex flex-column position-static">
 						<h3 class="mb-0"><?php echo $item['name']?></h3>
@@ -110,21 +175,232 @@ session_start();
 						</div>
 					</div>
 				</div>
-            <?php
-            echo "<form method = 'POST'>
-                            <input type='hidden' name='film_id' value='".$id."'>
-                            <input type='hidden' name='user_id' value='".$_SESSION['id']."'>
-                            <input type='hidden' name='date' value='".date('Y-m-d H:i:s')."'>
-                            <textarea class='form-control' name='message' placeholder='Ievadiet komentaru'></textarea><br>
-                            <button type='submit' class='btn btn-outline-primary me-2' name = 'commentSubmit' >Komentet</button>
-                        </form>";?>
-             <div class="row row-cols-1  ">
-				<?php foreach($comments as $com):?>
-            <div class="col">
-                <div class="card shadow-sm align-items-center">
-                    <div class="card-title "><?php echo $com['message']; ?></div>
+					<div class="card p-3 m-1">
+							<div class="row">
+								<div class="col-sm-10">
+										<textarea class='form-control' name='message' id='message' placeholder='Ievadiet komentaru'></textarea><br>
+								</div>
+								<div class="col-sm text-center">
+									<button type='submit' class='my-3 btn btn-outline-primary' onclick="javascript:addCom('<?php echo $ses_id; ?>','<?php echo $id; ?>' );" name = 'commentSubmit' >Komentet</button>
+								</div>
+							</div>
+					</div>
+
+					<div class="col-md-12">
+						<?php foreach($comments as $com):
+							$result = $db->query("SELECT * FROM users WHERE id=".$com['user_id']);
+							$user_id = $result->fetch();
+							
+							   $results = $db->query(" SELECT * FROM comments_user WHERE comments_id = '".$com['id']."' AND user_id = ".$ses_id);
+								 $user_com = $results->fetch();
+								 
+								if ($results->rowCount() > 0 OR $ses_id == $user_com['id'] OR $ses_id == $com['user_id'] ){
+									$style_like = '<i class="link-primary bi bi-hand-thumbs-up" ></i>';
+								} else {
+									$style_like = '<a onclick="javascript:likeCom(\''.$ses_id.'\',\''.$com['id'].'\');" class="link-dark" href="javascript:"><i class="bi bi-hand-thumbs-up" ></i></a>';
+								}
+								
+								$trash= $ses_id ==2 ? '<a onclick="javascript:delCom(\''.$com['id'].'\',\''.$ses_id.'\');" class="link-dark" href="javascript:"><i class="bi bi-trash3-fill"></i></a>':'';
+							
+						?>
+							<div class="card p-3 m-1">
+								<div class="d-flex justify-content-between align-items-center">
+									<div class="user d-flex flex-row align-items-center">
+										<span><small class="font-weight-bold text-primary"><?php echo $user_id['name'];?></small> </span>
+									</div>
+									<small><?php echo date("h:i d.m.Y", strtotime($com['date'])); echo $trash; ?></small>
+								</div>
+								<div class="action d-flex justify-content-between mt-2 align-items-center">
+										<div class="reply px-4"><i class="bi bi-chat-left"></i><small class="m-2 font-weight-bold"><?php echo $com['message']; ?></small></div>
+										<div class="icons align-items-center">
+												<?php echo $style_like;?>
+												<i class="fa"><?php echo $com['liked'];?></i>
+										</div>
+								</div>
+							</div>
+						<?php endforeach;?>
+					</div>
+
+
+		<div class="toast-container position-fixed top-0 end-0 p-3">
+			<div class="text-bg-success toast align-items-center" id="like_comment" role="alert" aria-live="assertive" aria-atomic="true">
+				<div class="d-flex">
+					<div class="toast-body" id="div_text">..................</div>
+					<button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Закрыть"></button>
+				</div>
 			</div>
 		</div>
-                <?php endforeach;?>
+
+
+		<!-- Modal HTML -->
+		<div id="ratingModal" class="modal fade" tabindex="-1">
+				<div class="modal-dialog">
+						<div class="modal-content">
+								<div class="modal-header">
+										<h5 class="modal-title" id="modal-title">...............</h5>
+										<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+								</div>
+								<div class="modal-body">
+										<p id="text-body">.....</p>
+										<p class="text-secondary" id="text-secondary"><small>....</small></p>
+								</div>
+								<div class="modal-footer">
+										<input type='hidden' id='col_stars' value="">
+										<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Atcelt</button>
+										<button type="button" id="model-button" class="btn btn-primary">....</button>
+								</div>
+						</div>
+				</div>
+		</div>
+
+						<script>
+								function delrating(id,user) {
+									document.getElementById("model-button").innerHTML = "Dzēst";
+									document.getElementById("modal-title").innerHTML = "Vērtējuma samazināšana";
+									document.getElementById("text-body").innerHTML = 'Jus patiešām gribat dzēst filmas vērtējumu?';
+									document.getElementById("text-secondary").innerHTML = "Filmas vērtējums tiks pārrēķināts no jauna.";
+									document.getElementById("model-button").setAttribute('onclick','ratingDelSave(\''+id+'\',\''+user+'\')'); 
+									$("#ratingModal").modal("show");
+								};
+								function rating(stars,id,user) {
+									if (user != 0 ){
+										document.getElementById("model-button").innerHTML = "Balsot";
+										document.getElementById("modal-title").innerHTML = "Filmas vērtējums";
+										document.getElementById("text-body").innerHTML = 'Jūs vēlaties piešķirt šai filmai <b id="col_star">'+stars+'</b><i class="bi bi-star-fill"></i> vērtējumu?';
+										document.getElementById("text-secondary").innerHTML = "Filmas reitings tiek aprēķināts, summējot visu lietotāju balsis..";
+										document.getElementById("col_stars").value = stars;
+										document.getElementById("model-button").setAttribute('onclick','ratingSave(\''+id+'\',\''+user+'\')'); 
+										$("#ratingModal").modal("show");
+																		} else{
+										  window.location.href = '/login.php';
+									}
+								};
+								
+								function delCom(user, comm) {
+									document.getElementById("model-button").innerHTML = "Dzēšana";
+									document.getElementById("modal-title").innerHTML = "Komentāru dzēšana";
+									document.getElementById("text-body").innerHTML = 'Vai esat pārliecināts, ka vēlaties dzēst lietotāja komentāru?';
+									document.getElementById("text-secondary").innerHTML = "Lietotāja komentāra dzēšana.";
+									document.getElementById("model-button").setAttribute('onclick','delSave(\''+comm+'\',\''+user+'\')'); 
+									$("#ratingModal").modal("show");
+								};
+								
+								function addCom(user,id) {
+									if (user != 0 ){
+										var message = document.getElementById("message").value;
+										var element = document.getElementById("like_comment");
+										const toast = new bootstrap.Toast(document.getElementById('like_comment'))
+										if (message) {
+											$.ajax({
+												type: 'POST',
+												data: {	type:'addCom', id:id, user:user, message:message},
+												url: "ajax.php",
+												cache: false,
+												success: function(data){
+													if (data['success'] == true) {
+														document.getElementById("div_text").innerHTML = "Komentārs pievienots.";
+														element.classList.remove("text-bg-danger");
+														element.classList.add("text-bg-success");
+														toast.show()
+														setTimeout(function() {location.reload();}, 500);
+													} else {
+														alert('ERROR!!!!!!!');
+													}
+												}
+											});
+										} else {
+											document.getElementById("div_text").innerHTML = "Komentārs nevar būt tukšs.";
+											element.classList.remove("text-bg-success");
+											element.classList.add("text-bg-danger");
+											toast.show()
+										}
+									} else{
+										  window.location.href = '/login.php';
+									}
+								};
+								
+								function ratingDelSave(id,user) {
+									const toast = new bootstrap.Toast(document.getElementById('like_comment'))
+									$.ajax({
+										type: 'POST',
+										data: {	type:'deleRating', id:id, user:user},
+										url: "ajax.php",
+										cache: false,
+										success: function(data){
+											if (data['success'] == true) {
+												document.getElementById("div_text").innerHTML = "Komentārs izdzēsts.";
+												toast.show()
+												setTimeout(function() {location.reload();}, 500);
+											} else {
+												alert('ERROR!!!!!!!');
+											}
+										}
+									});
+								};
+								function delSave(user, id) {
+									const toast = new bootstrap.Toast(document.getElementById('like_comment'))
+									$.ajax({
+										type: 'POST',
+										data: {	type:'deleComm', id:id, user:user},
+										url: "ajax.php",
+										cache: false,
+										success: function(data){
+											if (data['success'] == true) {
+												document.getElementById("div_text").innerHTML = "Komentārs izdzēsts.";
+												toast.show()
+												setTimeout(function() {location.reload();}, 500);
+											} else {
+												alert('ERROR!!!!!!!');
+											}
+										}
+									});
+								};
+								
+								function ratingSave(id,user) {
+									var stars = document.getElementById('col_stars').value;
+									const toast = new bootstrap.Toast(document.getElementById('like_comment'))
+									$.ajax({
+										type: 'POST',
+										data: {	type:'ratingSave', id:id, user:user, stars:stars},
+										url: "ajax.php",
+										cache: false,
+										success: function(data){
+											if (data['success'] == true) {
+												document.getElementById("div_text").innerHTML = "Paldies par filmas vērtējumu";
+												toast.show()
+												setTimeout(function() {location.reload();}, 500);
+											} else {
+												alert('ERROR!!!!!!!');
+											}
+										}
+									});
+								};
+								
+								function likeCom(user, like_id) {
+									if (user != 0 ){
+										const toast = new bootstrap.Toast(document.getElementById('like_comment'))
+										$.ajax({
+											type: 'POST',
+											data: {	type:'like_comm', user:user, like_id:like_id},
+											url: "ajax.php",
+											cache: false,
+											success: function(data){
+												if (data['success'] == true) {
+													document.getElementById("div_text").innerHTML = "Paldies par atsauksmēm";
+													toast.show()
+													setTimeout(function() {location.reload();}, 500);
+												} else {
+													alert('ERROR!!!!!!!');
+												}
+											}
+										});
+									} else{
+										  window.location.href = '/login.php';
+									}
+								};
+											
+						</script>
+
+
 	</body>
 </html>

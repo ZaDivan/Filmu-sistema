@@ -1,27 +1,46 @@
 <?php
 session_start();
+error_reporting(0);
 if(empty($_SESSION['role'])){
     header('location:index.php');
 }elseif($_SESSION['role'] == 2) {
     header('location:admin_page.php');}
 require("db.php");
-$genres = $db->query("SELECT * FROM genres")->fetchAll(2);
-$years = $db->query("SELECT * FROM years")->fetchAll(2);
-$items = $db->query("SELECT * FROM items")->fetchAll(2);
+$genres = $db->query("SELECT * FROM genres ORDER BY `name` DESC")->fetchAll(2);
+$years = $db->query("SELECT * FROM years ORDER BY `name` ASC")->fetchAll(2);
+
+$where = "";
+$genresql = "";
+
 
 if(isset($_GET['genre'])){
-    $id = $_GET['genre'];
-    $items = $db->query("SELECT * FROM items WHERE genre_id=$id")->fetchAll(2);
+		$where = "WHERE ";
+		$genresql = "genre_id=".$_GET['genre'];
 }
 if(isset($_GET['year'])) {
-    $id = $_GET['year'];
-    $items = $db->query("SELECT * FROM items WHERE year_id=$id")->fetchAll(2);
+		$where = "WHERE ";
+		$andsql = $_GET['genre'] ? " AND " : "";
+		$yearsql  = $andsql."year_id=".$_GET['year'];
+}
 
-}
 if (isset($_POST["search"])){
-    $str = $_POST["search"];
-    $items = $db->query("SELECT * FROM items WHERE name LIKE '%$str%'")->fetchAll(2);
+		$genresql = "";
+		$yearsql  = "";
+		$where = "WHERE ";
+		$searcsql = "name LIKE '%".$_POST["search"]."%'";
 }
+
+
+$items = $db->query("SELECT * FROM items ".$where.$genresql.$yearsql.$searcsql." ORDER BY `rating` DESC")->fetchAll(2);
+
+
+$genre = (!isset($_REQUEST['genre']) ? '' : $_REQUEST['genre']);
+$year = (!isset($_REQUEST['year']) ? '' : $_REQUEST['year']);
+
+
+$genreurl = $genre ? '?genre='.$genre.'&' : '?';
+$yearurl = $year ? '?year='.$year.'&' : '?'; 
+
 ?>
 
 <!doctype html>
@@ -37,6 +56,7 @@ if (isset($_POST["search"])){
 
     <!-- Bootstrap core CSS -->
 <link href="css/bootstrap.css" rel="stylesheet" crossorigin="anonymous">
+<link href="css/bootstrap-icons.min.css" rel="stylesheet" >
 
     <!-- Favicons -->
 
@@ -44,7 +64,7 @@ if (isset($_POST["search"])){
 
   </head>
   <body>
-    
+   
 <div style="display: none;">
 <svg id="Info_system" height="40" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
 	 viewBox="0 0 512 512" xml:space="preserve" 
@@ -68,9 +88,8 @@ if (isset($_POST["search"])){
 </div>
 
 <main>
-
   <header class="p-3 mb-3 border-bottom">
-    <div class="container">
+    <div class="container-fluid"><!-- TUT -->
 			<div class="container-fluid d-grid gap-3 align-items-center" style="grid-template-columns: 1fr 2fr;">
 				<a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
 					<svg class="bi me-2" width="40" height="32"><use xlink:href="#Info_system"></use></svg>
@@ -83,7 +102,7 @@ if (isset($_POST["search"])){
 					</form>
 					
 					<div class="col-md-4 text-end">
-						<a href = "user_page.php"><button type="button" class="btn btn-outline-primary me-2">Māja</button></a>
+						<a href = "user_settings.php"><button type="button" class="btn btn-outline-primary me-2">Iestatījumi</button></a>
 						<a href = "logout.php"><button type="button" class="btn btn-primary">Iziet</button></a>
 				</div>
 					
@@ -92,14 +111,19 @@ if (isset($_POST["search"])){
     </div>
   </header>
 
-	<div class="container d-grid gap-2">
+	<div class="container-fluid d-grid gap-2"><!-- TUT -->
 		<nav class="navbar navbar-expand-lg navbar-light bg-light rounded">
 				<div class="container-fluid">
 					<a class="navbar-brand" href="#">Žanri</a>
 					<div class="collapse navbar-collapse">
-								<?php foreach($genres as $item):?>
-										<a href="?genre=<?php echo $item['id']; ?>" class="btn btn-outline-primary btn-sm mx-1" role="button" aria-disabled="true" style="width: 100px;"><?php echo $item["name"];?></a>
+								<?php foreach($genres as $item):
+										$sel_genre =	$genre != $item['id'] ? '-outline' : '';
+								?>
+										<a href="<?php echo $yearurl; ?>genre=<?php echo $item['id']; ?>" class="btn btn<?php echo $sel_genre;?>-primary btn-sm mx-1" role="button" aria-disabled="true" style="width: 100px;"><?php echo $item["name"];?></a>
 								<?php endforeach; ?>
+					</div>
+					<div class="collapse navbar-collapse justify-content-end">		
+								<a href="<?php echo $yearurl; ?>" class="btn btn-outline-secondary btn-sm mx-1" role="button" aria-disabled="true" style="width: 100px;">Filtra tīrīšana</a>
 					</div>
 				</div>
 		</nav>
@@ -108,9 +132,14 @@ if (isset($_POST["search"])){
 				<div class="container-fluid">
 					<a class="navbar-brand" href="#">Gadi</a>
 					<div class="collapse navbar-collapse" >
-							<?php foreach($years as $item):?>
-									<a href="?year=<?php echo $item['id']; ?>" class="btn btn-outline-info btn-sm mx-1" role="button" aria-disabled="true" style="width: 100px;"><?php echo $item["name"];?></a>
+							<?php foreach($years as $item):
+											$sel_genre =	$year != $item['id'] ? '-outline' : '';
+							?>
+									<a href="<?php echo $genreurl; ?>year=<?php echo $item['id']; ?>" class="btn btn<?php echo $sel_genre;?>-info btn-sm mx-1" role="button" aria-disabled="true" style="width: 100px;"><?php echo $item["name"];?></a>
 							<?php endforeach; ?>
+					</div>
+					<div class="collapse navbar-collapse justify-content-end">		
+								<a href="<?php echo $genreurl; ?>" class="btn btn-outline-secondary btn-sm mx-1" role="button" aria-disabled="true" style="width: 100px;">Filtra tīrīšana</a>
 					</div>
 				</div>
 		</nav>
@@ -118,20 +147,74 @@ if (isset($_POST["search"])){
 </main>
 
 
-		<div class="container d-grid pt-3 pb-5">
+		<div class="container-fluid d-grid pt-3 pb-5"><!-- TUT -->
             <p class="h4">Labdien <?php echo $_SESSION['user_name'] ?></p>
             <p class="h4">Jūsu rekomendācijas</p>
 			<div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-4 ">
-				<?php foreach($items as $item):?>
-					<div class="col">
-          <div class="card shadow-sm align-items-center">
-						<img class="pt-2" style="width: 10rem;" src="<?php echo $item['photo']?>" alt="photo" >
-            <div class="card-body">
-               <div class="card-title "><?php echo $item['name']; ?></div>
-              <div class="card-text text-center">
-                  <a href = "single.php?id=<?php echo $item['id'];?>"><button type="button" class="btn btn-sm btn-outline-secondary">More</button></a>
-              </div>
-            </div>
+				<?php foreach($items as $item):
+								if ($item['rating'] == 0) {
+										$star1 = '';
+										$star2 = '';
+										$star3 = '';
+										$star4 = '';
+										$star5 = '';
+								} else if ($item['rating'] > 0 && $item['rating'] <= 1 ) {
+										$star1 = '-fill';
+										$star2 = '';
+										$star3 = '';
+										$star4 = '';
+										$star5 = '';
+								} else if ($item['rating'] > 1 && $item['rating'] <= 2 ) {
+										$star1 = '-fill';
+										$star2 = '-fill';
+										$star3 = '';
+										$star4 = '';
+										$star5 = '';		
+								} else if ($item['rating'] > 2 && $item['rating'] <= 3 ) {
+										$star1 = '-fill';
+										$star2 = '-fill';
+										$star3 = '-fill';
+										$star4 = '';
+										$star5 = '';
+								} else if ($item['rating'] > 3 && $item['rating'] <= 4 ) {
+										$star1 = '-fill';
+										$star2 = '-fill';
+										$star3 = '-fill';
+										$star4 = '-fill';
+										$star5 = '';		
+								} else if ($item['rating'] > 4 && $item['rating'] <= 5 ) {
+										$star1 = '-fill';
+										$star2 = '-fill';
+										$star3 = '-fill';
+										$star4 = '-fill';
+										$star5 = '-fill';		
+								}
+				?>
+				<div class="col">
+					<div class="card shadow-sm align-items-center" style="height:24rem;">
+						<div class="h-75">
+							<img class="pt-2 " style="width: 10rem;" src="<?php echo $item['photo']?>" alt="photo" >
+						</div>
+						<div class="row text-center ">
+							<div class="col p-1">
+							 <div class="row col">
+									<div class="col"><i class="bi bi-star<?php echo $star1;?>"></i></div>
+									<div class="col"><i class="bi bi-star<?php echo $star2;?>"></i></div>
+									<div class="col"><i class="bi bi-star<?php echo $star3;?>"></i></div>
+									<div class="col"><i class="bi bi-star<?php echo $star4;?>"></i></div>
+									<div class="col"><i class="bi bi-star<?php echo $star5;?>"></i></div>
+								</div>
+							</div>
+						</div>
+						<div class="row text-center " style="font-size: 12px; margin-top: -10px;">
+							<em>Rating: <?php echo $item['rating'];?></em>
+						</div>
+						<div class="card-body text-center">
+							<div class="card-title"><?php echo $item['name']; ?></div>
+							<div class="card-text">
+								<a href = "single.php?id=<?php echo $item['id'];?>"><button type="button" class="btn btn-sm btn-outline-secondary">More</button></a>
+							</div>
+						</div>
           </div>
         </div>
         <?php endforeach;?>
