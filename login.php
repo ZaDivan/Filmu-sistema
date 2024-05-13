@@ -82,9 +82,6 @@ body {
         <h1 class="fw-bold mb-0 fs-2">Login now</h1>
       </div>
 			
-123@gmail.com asd 2 <br>
-test@abc 123456 1	<br>
-123@gmail.com 1234 2	<br>
 			 
       <div class="modal-body p-5 pt-0">
         <form  action="" method="post">
