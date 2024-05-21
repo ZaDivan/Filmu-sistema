@@ -31,7 +31,7 @@ if(isset($_POST['submit'])){
         }
 
     }else{
-        $error[] = 'incorrect email or password!';
+        $error[] = 'nepareizs epasts vai parole!';
     }
 		
 };
@@ -79,22 +79,22 @@ body {
   <div class="modal-dialog" role="document">
     <div class="modal-content rounded-4 shadow">
       <div class="modal-header p-5 pb-4 border-bottom-0">
-        <h1 class="fw-bold mb-0 fs-2">Login now</h1>
+        <h1 class="fw-bold mb-0 fs-2">Autorizēties</h1>
       </div>
-			
+
 			 
       <div class="modal-body p-5 pt-0">
         <form  action="" method="post">
           <div class="form-floating mb-3">
             <input type="email" name="email" class="form-control rounded-3" id="floatingInput" placeholder="Enter your email">
-            <label for="floatingInput">Enter your email</label>
+            <label for="floatingInput">Ievadiet epastu</label>
           </div>
           <div class="form-floating mb-3">
             <input type="password" name="password" class="form-control rounded-3" id="floatingPassword" placeholder="Enter your password">
-            <label for="floatingPassword">Enter your password</label>
+            <label for="floatingPassword">Ievadiet paroli</label>
           </div>
 					
-          <button class="w-100 mb-2 btn btn-lg rounded-3 btn-primary" name="submit" type="submit">Login now</button>
+          <button class="w-100 mb-2 btn btn-lg rounded-3 btn-primary" name="submit" type="submit">Login</button>
 					<hr class="my-4">
         </form>
 							<?php
@@ -104,8 +104,7 @@ body {
 						};
 				};
 		?>
-		don't have an account? 
-		<p>don't have an account? <a href="register.php">register now</a></p>
+		<p>Vai jums nav konta? <a href="register.php">registrēties</a></p>
       </div>
     </div>
   </div>

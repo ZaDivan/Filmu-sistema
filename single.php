@@ -1,5 +1,6 @@
 <?php
 session_start();
+session_id();
 error_reporting(0);
     require("db.php");
     date_default_timezone_set('Europe/Riga');
@@ -181,7 +182,7 @@ error_reporting(0);
 										<textarea class='form-control' name='message' id='message' placeholder='Ievadiet komentaru'></textarea><br>
 								</div>
 								<div class="col-sm text-center">
-									<button type='submit' class='my-3 btn btn-outline-primary' onclick="javascript:addCom('<?php echo $ses_id; ?>','<?php echo $id; ?>' );" name = 'commentSubmit' >Komentet</button>
+									<button type='submit' class='my-3 btn btn-outline-primary' onclick="javascript:addCom('<?php echo $ses_id; ?>','<?php echo $id; ?>' );" name = 'commentSubmit' >Komentēt</button>
 								</div>
 							</div>
 					</div>
@@ -271,8 +272,9 @@ error_reporting(0);
 										document.getElementById("col_stars").value = stars;
 										document.getElementById("model-button").setAttribute('onclick','ratingSave(\''+id+'\',\''+user+'\')'); 
 										$("#ratingModal").modal("show");
-																		} else{
-										  window.location.href = '/login.php';
+																		}
+                                    else{
+										  window.location.href = 'login.php';
 									}
 								};
 								
@@ -315,7 +317,7 @@ error_reporting(0);
 											toast.show()
 										}
 									} else{
-										  window.location.href = '/login.php';
+										  window.location.href = 'login.php';
 									}
 								};
 								
@@ -395,7 +397,7 @@ error_reporting(0);
 											}
 										});
 									} else{
-										  window.location.href = '/login.php';
+										  window.location.href = 'login.php';
 									}
 								};
 											

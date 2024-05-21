@@ -212,7 +212,7 @@ $yearurl = $year ? '?year='.$year.'&' : '?';
 						<div class="card-body text-center">
 							<div class="card-title"><?php echo $item['name']; ?></div>
 							<div class="card-text">
-								<a href = "single.php?id=<?php echo $item['id'];?>"><button type="button" class="btn btn-sm btn-outline-secondary">More</button></a>
+								<a href = "single.php?id=<?php echo $item['id'];?>"><button type="button" class="btn btn-sm btn-outline-secondary">Vairāk</button></a>
 							</div>
 						</div>
           </div>

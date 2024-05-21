@@ -14,12 +14,12 @@ if(isset($_POST['submit'])) {
 
     if ($result->fetchColumn() > 0) {
 
-        $error[] = 'user already exist!';
+        $error[] = 'Lietotājs jau pastāv!';
 
     } else {
 
         if ($pass != $cpass) {
-            $error[] = 'password not matched!';
+            $error[] = 'Paroles ne sakrīt';
         } else {
             $insert = "INSERT INTO users(name, email, password, role) VALUES('$name','$email','$pass','$role')";
             $db->query($insert);
@@ -35,7 +35,7 @@ if(isset($_POST['submit'])) {
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="author" content="Register ">
-    <title>Register</title>
+    <title>Registrācija</title>
 
     <!-- Bootstrap core CSS -->
 <link href="css/bootstrap.css" rel="stylesheet" crossorigin="anonymous">
@@ -51,7 +51,7 @@ if(isset($_POST['submit'])) {
   <div class="modal-dialog" role="document">
     <div class="modal-content rounded-4 shadow">
       <div class="modal-header p-5 pb-4 border-bottom-0">
-        <h1 class="fw-bold mb-0 fs-2">Register now</h1>
+        <h1 class="fw-bold mb-0 fs-2">Reģistrācija</h1>
       </div>
 				<?php
         if(isset($error)){
@@ -65,19 +65,19 @@ if(isset($_POST['submit'])) {
          <form action="" method="post">
           <div class="form-floating mb-3">
             <input type="text" name="name" class="form-control rounded-3" id="floatingInputname" placeholder="Enter your name">
-            <label for="floatingInputname">Enter your name</label>
+            <label for="floatingInputname">Ievadiet lietotājvārdu</label>
           </div>
           <div class="form-floating mb-3">
             <input type="email" name="email" class="form-control rounded-3" id="floatingInput" placeholder="Enter your email">
-            <label for="floatingInput">Enter your email</label>
+            <label for="floatingInput">Ievadiet epastu</label>
           </div>
           <div class="form-floating mb-3">
             <input type="password" name="password" class="form-control rounded-3" id="floatingPassword" placeholder="Enter your password">
-            <label for="floatingPassword">Enter your password</label>
+            <label for="floatingPassword">Ievadiet paroli</label>
           </div>
           <div class="form-floating mb-3">
             <input type="password" name="cpassword" class="form-control rounded-3" id="floatingPasswords" placeholder="Confirm your password">
-            <label for="floatingPasswords">Confirm your password</label>
+            <label for="floatingPasswords">Atkārtojiet paroli</label>
           </div>
           <select class="form-select form-select-lg mb-3" name="role" id="" >
 						 <?php foreach($roles as $role): ?>
@@ -87,10 +87,10 @@ if(isset($_POST['submit'])) {
             <?php endforeach;?>
 					</select>
 					
-          <button class="w-100 mb-2 btn btn-lg rounded-3 btn-primary" name="submit" type="submit">Register now</button>
+          <button class="w-100 mb-2 btn btn-lg rounded-3 btn-primary" name="submit" type="submit">Registrācija</button>
 					<hr class="my-4">
         </form>
-					<p>already have an account? <a href="login.php">Login now</a></p>
+					<p>Jau ir konts? <a href="login.php">Login</a></p>
       </div>
     </div>
   </div>

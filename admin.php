@@ -114,7 +114,7 @@ $years = $db->query("SELECT * FROM years")->fetchAll(2);
 					<span class="fs-4">Admin panel</span>
 				</a>
 				<div class="col-md-12 text-end">
-						<a href = "admin_page.php"><button type="button" class="btn btn-outline-primary me-2">Back</button></a>
+						<a href = "admin_page.php"><button type="button" class="btn btn-outline-primary me-2">Māja</button></a>
 				</div>
 			</div>
     </div>
@@ -128,26 +128,26 @@ $years = $db->query("SELECT * FROM years")->fetchAll(2);
 								<div class="accordion-item">
 									<h2 class="accordion-header" >
 										<button class="accordion-button" type="button" data-bs-toggle="collapse"  aria-expanded="true"  disabled>
-											Add new video
+											Pievienot filmu/seriālu
 										</button>
 									</h2>
 									<div class="accordion-collapse collapse show">
 										<div class="accordion-body">
 											<form action="#">
 												<div class="mb-1">
-													<label for="name" class="form-label">Name</label>
+													<label for="name" class="form-label">Nosaukums</label>
 													<input type="text" class="form-control" id="name"  name="new_item_name" >
 												</div>
 												<div class="mb-1">
-													<label for="photo" class="form-label">Photo</label>
+													<label for="photo" class="form-label">Foto</label>
 													<input type="text" class="form-control" id="photo"  name="photo" >
 												</div>
 												<div class="mb-1">
-													<label for="description" class="form-label">Description</label>
+													<label for="description" class="form-label">Apraksts</label>
 													<textarea class="form-control" id="description" name="description" rows="3"></textarea>
 												</div>
 												<div class="mb-1">
-													<label for="genre" class="form-label">Genre</label>
+													<label for="genre" class="form-label">Žanrs</label>
 													<select class="form-select form-select mb-3" name="genre_id" id="" >
 													 <?php foreach($genres as $gen): ?>
 															<option value="<?php echo $gen['id'];?>">
@@ -157,7 +157,7 @@ $years = $db->query("SELECT * FROM years")->fetchAll(2);
 												</select>
 												</div>
 												<div class="mb-1">
-													<label for="year" class="form-label">Year</label>
+													<label for="year" class="form-label">Gads</label>
 													<select class="form-select form-select mb-3" name="year_id" id="" >
 													 <?php foreach($years as $year): ?>
 															<option value="<?php echo $year['id'];?>">
@@ -176,7 +176,7 @@ $years = $db->query("SELECT * FROM years")->fetchAll(2);
 												</div>
 												<div class="mb-1">
 													<div class="d-grid gap-2 col-6 mx-auto">
-														<input type="submit" name="Add" value="Add" class="btn btn-sm btn-primary">
+														<input type="submit" name="Add" value="Pievienot" class="btn btn-sm btn-primary">
 													</div>
 												</div>
 											</div>
@@ -211,7 +211,7 @@ $years = $db->query("SELECT * FROM years")->fetchAll(2);
 												</div>
 												<div class="col d-flex flex-column position-static">
 													<div class="mb-0">
-														<label for="item_name" class="form-label">Name</label>
+														<label for="item_name" class="form-label">Nosaukums</label>
 														<input type="text" class="form-control" id="item_name"  name="item_name" value="<?php echo $item['name']?>" >
 													</div>
 													<div class="mb-0">
@@ -227,7 +227,7 @@ $years = $db->query("SELECT * FROM years")->fetchAll(2);
 														<input type="text" class="form-control" id="photos"  name="photo" value="<?php echo $item['photo']?>" >
 													</div>
 													<div class="mb-0">
-														<label for="genre" class="form-label">Genre</label>
+														<label for="genre" class="form-label">Žanrs</label>
 														<select class="form-select form-select mb-3" name="genre_id" id="">
 																<?php foreach($genres as $gen): ?>
 																		<option <?php if($item['genre_id'] == $gen['id']) echo 'selected="selected"';  ?> value="<?php echo $gen['id'];?>">
@@ -237,7 +237,7 @@ $years = $db->query("SELECT * FROM years")->fetchAll(2);
 														</select>
 													</div>
 													<div class="mb-0">
-														<label for="year" class="form-label">Year</label>
+														<label for="year" class="form-label">Gads</label>
 														<select class="form-select form-select mb-3" name="year_id" id="">
 																<?php foreach($years as $year): ?>
 																	<option <?php if($item['year_id'] == $year['id']) echo 'selected';  ?> value="<?php echo $year['id'];?>">
@@ -257,8 +257,8 @@ $years = $db->query("SELECT * FROM years")->fetchAll(2);
 													<div class="mb-1">
 														<div class="d-grid gap-2 col-6 mx-auto">
 															<input type = "hidden" name="id" value="<?php echo $item['id']; ?>">
-															<input type="submit" name="Update" value="Update" class="btn btn-sm btn-primary">
-															<input type="submit" name="Delete" value="Delete" class="btn btn-sm btn-danger">
+															<input type="submit" name="Update" value="Atjaunot" class="btn btn-sm btn-primary">
+															<input type="submit" name="Delete" value="Dzēst" class="btn btn-sm btn-danger">
 														</div>
 													</div>
 												</div>
